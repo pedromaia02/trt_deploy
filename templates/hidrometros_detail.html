@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block head_title %}{{ instance.title }} | {{ block.super }}{% endblock head_title %}
+
+{% block content %}
+
+<h1>Hidrômetro {{ instance.local }} </h1>
+<h2> {{ instance.data }} </h2>
+
+<hr>
+<h4>Medição Inicial: {{ instance.medicao_inicial }} m³</h4>
+<h4>Medição Final: {{ instance.medicao_final }} m³</h4>
+<h4>Horário de ligamento da bomba: {{ instance.horario_ligamento }}</h4>
+<h4>Horário de desligamento da bomba: {{ instance.horario_desligamento }}</h4>
+
+<hr>
+<a class="btn btn-primary btn-sm" href='{% url "hidrometros:update" id=instance.id %}' role="button">Editar</a>
+
+<a class="btn btn-primary btn-sm" href="{% url 'hidrometros:home' %}" role="button">Retornar</a>
+<hr>
+<a class="btn btn-primary btn-sm btn-danger" href='{% url "hidrometros:delete" id=instance.id %}' role="button">Deletar</a>
+
+{% endblock content %}

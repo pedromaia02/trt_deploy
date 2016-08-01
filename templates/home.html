@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<hr>
+
+<div class="row">
+  <div class="col-md-1"><a class="btn btn-primary btn-sm btn-danger" href="/logout/" role="button">Logout</a></div>
+</div>
+<hr>
+<h1>Análise de Hidrômetros: Tribunal Regional do Trabalho Natal-RN</h1>
+
+
+<hr>
+ <a class="btn btn-primary btn-lg btn-success" href='{% url "hidrometros:create" %}' role="button">Registrar Medição</a>
+
+<hr>
+<h3>Hidrômetros:</h3>
+
+<ul class="pagination pagination-lg">
+<li><a href="{% url 'hidrometros:list' local='Geral' %}">Geral</a></li>
+<li><a href='{% url "hidrometros:list" local="Corte_H1" %}'>Corte H1</a></li>
+<li><a href="{% url 'hidrometros:list' local='Corte_H2' %}">Corte H2</a></li>
+<li><a href="{% url 'hidrometros:list' local='Bloco_ADM' %}">Bloco ADM.</a></li>
+<li><a href="{% url 'hidrometros:list' local='Bloco_Varas' %}">Bloco Varas</a></li>
+<li><a href="{% url 'hidrometros:list' local='Jardim' %}">Jardim</a></li>
+
+</ul>
+
+{% endblock content %}

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<hr>
+<div class="row">
+  <div class="col-md-1"><a class="btn btn-primary btn-sm btn-danger" href="/logout/" role="button">Logout</a></div>
+</div>
+<hr>
+<h1>Análise de Hidrômetros: Tribunal Regional do Trabalho Natal-RN</h1>
+
+
+<hr>
+ <a class="btn btn-primary btn-lg btn-success" href='{% url "hidrometros:create" %}' role="button">Registrar Medição</a>
+
+<hr>
+<h3>Hidrômetros:</h3>
+
+<ul class="pagination pagination-lg">
+<li><a href="{% url 'hidrometros:list' local='Geral' %}">Geral</a></li>
+<li><a href='{% url "hidrometros:list" local="Corte_H1" %}'>Corte H1</a></li>
+<li><a href="{% url 'hidrometros:list' local='Corte_H2' %}">Corte H2</a></li>
+<li><a href="{% url 'hidrometros:list' local='Bloco_ADM' %}">Bloco ADM.</a></li>
+<li><a href="{% url 'hidrometros:list' local='Bloco_Varas' %}">Bloco Varas</a></li>
+<li><a href="{% url 'hidrometros:list' local='Jardim' %}">Jardim</a></li>
+</ul>
+
+<hr>
+
+<h3><b>Hidrômetro: {{ hidrom }}</b></h3>
+<table class="table table-bordered" cellspacing="0" width="100%">
+
+
+<th class="info">Data</th>
+<th class="info">Medição Inicial (m³)</th>
+<th class="info">Medição Final (m³)</th>
+<th class="info">Consumo Diurno (m³)</th>
+
+
+{% for obj in object_list %}
+
+<tr>
+
+<td><a href='{% url "hidrometros:detail" id=obj.id %}'>{{ obj.data }}</a><br/></td>
+<td>{{ obj.medicao_inicial }}</td>
+<td>{{ obj.medicao_final }}</td>
+
+{% with obj.consumo_diurno as calc_result %}
+  <td>{{ calc_result }}</td>
+{% endwith %} 
+
+</tr>
+{% endfor %} 
+
+</table>
+
+
+
+<hr>
+
+{% load chart_tags %}
+{% chart %}
+     chxr=0,0,{{ max_consumo }}
+     chxt=y
+     chs=940x300
+     cht=lc
+     chco=FF0000,00FF00
+     chds=0,{{ max_consumo }}0,{{ max_consumo }}
+     chd=t:{{ consumo }}|{{ media_graph }}
+     chtt=Gráfico+de+Consumo+do+Hidrômetro+Geral
+     chdl=Consumo+Diurno|Media
+     chm=o,FF0000,0,-1,8
+{% endchart %}
+
+<!-- chg éo param para colocar o grid -->
+
+
+
+<div class="col-xs-12" style="height:60px;"></div>
+
+<h2>Dados Estatísticos:</h2>
+<table class="table">
+  <tr class="active">
+    <th>Média de Consumo Diurno:</th>
+    <td>{{ media }} m³</td>
+  </tr>
+  <tr>
+    <th>Máximo Consumo Diurno Registrado:</th>
+    <td>{{ max_consumo }} m³  ({{acima_media}} % acima da média)</td>
+  </tr>
+  <tr class="active">
+    <th>Mínimo Consumo Diurno Registrado:</th>
+    <td>{{ min_consumo }} m³  ({{abaixo_media}} % abaixo da média)</td>
+  </tr>
+  <tr>
+    <th>Desvio Padrão do Consumo:</th>
+    <td>{{ std }} m³</td>
+  </tr>
+</table>
+
+<div class="col-xs-12" style="height:60px;"></div>
+
+<hr>
+{% endblock content %}
+
