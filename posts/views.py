@@ -8,11 +8,11 @@ from .forms import HidrometrosForm
 import numpy as np
 
 
-@login_required(login_url='/login/')
+#@login_required(login_url='/login/')
 def hidrometros_home(request):
 	return render(request,"home.html")
 
-@login_required(login_url='/login/')
+#@login_required(login_url='/login/')
 def hidrometros_create(request):
 	form = HidrometrosForm(request.POST or None)
 	if form.is_valid():
@@ -34,7 +34,7 @@ def hidrometros_create(request):
 	}
 	return render(request,"hidrometros_form.html", context)
 
-@login_required(login_url='/login/')
+#@login_required(login_url='/login/')
 def hidrometros_detail(request, id=None):
 	instance = get_object_or_404( Hidrometros,id=id)
 	context = {
@@ -43,7 +43,7 @@ def hidrometros_detail(request, id=None):
 	}
 	return render(request,"hidrometros_detail.html", context)
 
-@login_required(login_url='/login/')
+#@login_required(login_url='/login/')
 def hidrometros_list(request, local=None):	
 	queryset =  Hidrometros.objects.filter(local=local).order_by('data')
 	values = queryset.values('medicao_inicial','medicao_final')
@@ -91,7 +91,7 @@ def hidrometros_list(request, local=None):
 	 	}
 	return render(request,"hidrometros_list.html", context)
 
-@login_required(login_url='/login/')
+#@login_required(login_url='/login/')
 def hidrometros_update(request, id=None):
 	instance = get_object_or_404( Hidrometros,id=id)
 	form = HidrometrosForm(request.POST or None, instance=instance)
@@ -107,9 +107,9 @@ def hidrometros_update(request, id=None):
 	}
 	return render(request,"hidrometros_form.html", context)
 
-@login_required(login_url='/login/')
+#@login_required(login_url='/login/')
 def hidrometros_delete(request, id=None):
 	instance = get_object_or_404( Hidrometros, id=id)
 	instance.delete()
 	messages.success(request,"Item Deleted")
-	return redirect("hidrometros:list")
+	return render(request,"hidrometros_list.html")
